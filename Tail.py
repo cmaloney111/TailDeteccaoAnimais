@@ -79,7 +79,9 @@ def main():
     option = st.selectbox(
         'Você gostaria de detectar pássaros, gatos ou cachorros?',
         ('pássaros', 'gatos', 'cachorros'))
-    
+
+    with st.sidebar:
+        probability = st.checkbox("Mostrar confiança da predição")  
 
 
     if option == "pássaros":
@@ -108,6 +110,8 @@ def main():
         elif option == "cachorros":
             st.write("predição: " + inference["predictions"]["labelName"].split("-")[1])  
         
+        if (probability):
+            st.write("confiança: " + str(inference["predictions"]["score"]))
 
         if option == "pássaros":
             st.title('Outros pássaros como esse:')
