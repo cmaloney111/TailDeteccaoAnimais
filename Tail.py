@@ -8,6 +8,12 @@ from pathlib import Path
 from typing import Any, Union
 import io
 
+def get_folder_size(folder_name):
+    size = 0
+    for path, dirs, files in os.walk(folder_name):
+        for f in files:
+            size += 1
+    return size
 
 def resize(img, size):
     image = Image.open(img)
@@ -82,6 +88,7 @@ def main():
 
     with st.sidebar:
         probability = st.checkbox("Mostrar confiança da predição")  
+        photo_num = st.slider('Cuantas imagens você quer mostrar?', 0, 50, 10, 1)
 
 
     if option == "pássaros":
@@ -118,9 +125,16 @@ def main():
             files = os.listdir(os.path.join("Birds/images", inference["predictions"]["labelName"]))
             try:
                 filelist = []
-                for f in sample(files, 8):
-                    filepath = os.path.join("Birds/images", inference["predictions"]["labelName"], f)
-                    filelist.append(resize(filepath, 300))
+                try:
+                    for f in sample(files, photo_num):
+                        filepath = os.path.join("Birds/images", inference["predictions"]["labelName"], f)
+                        filelist.append(resize(filepath, 300))
+                except ValueError:
+                    folder_size = get_folder_size(os.path.join("Birds/images", inference["predictions"]["labelName"]))
+                    st.write("existem apenas " + str(folder_size) + " fotos no database desse pássaro")
+                    for f in sample(files, folder_size):
+                        filepath = os.path.join("Birds/images", inference["predictions"]["labelName"], f)
+                        filelist.append(resize(filepath, 300))                    
             except FileNotFoundError:
                 pass
         elif option == "gatos":
@@ -128,9 +142,16 @@ def main():
             files = os.listdir(os.path.join("Cats/images", inference["predictions"]["labelName"]))
             try:
                 filelist = []
-                for f in sample(files, 8):
-                    filepath = os.path.join("Cats/images", inference["predictions"]["labelName"], f)
-                    filelist.append(resize(filepath, 300))
+                try:
+                    for f in sample(files, photo_num):
+                        filepath = os.path.join("Cats/images", inference["predictions"]["labelName"], f)
+                        filelist.append(resize(filepath, 300))
+                except ValueError:
+                    folder_size = get_folder_size(os.path.join("Cats/images", inference["predictions"]["labelName"]))
+                    st.write("existem apenas " + str(folder_size) + " fotos no database desse gato")
+                    for f in sample(files, folder_size):
+                        filepath = os.path.join("Cats/images", inference["predictions"]["labelName"], f)
+                        filelist.append(resize(filepath, 300))         
             except FileNotFoundError:
                 pass
         elif option == "cachorros":
@@ -138,9 +159,16 @@ def main():
             files = os.listdir(os.path.join("Dogs/images", inference["predictions"]["labelName"]))
             try:
                 filelist = []
-                for f in sample(files, 8):
-                    filepath = os.path.join("Dogs/images", inference["predictions"]["labelName"], f)
-                    filelist.append(resize(filepath, 300))
+                try:
+                    for f in sample(files, photo_num):
+                        filepath = os.path.join("Dogs/images", inference["predictions"]["labelName"], f)
+                        filelist.append(resize(filepath, 300))
+                except ValueError:
+                    folder_size = get_folder_size(os.path.join("Dogs/images", inference["predictions"]["labelName"]))
+                    st.write("existem apenas " + str(folder_size) + " fotos no database desse cachorro")
+                    for f in sample(files, folder_size):
+                        filepath = os.path.join("Dogs/images", inference["predictions"]["labelName"], f)
+                        filelist.append(resize(filepath, 300))         
             except FileNotFoundError:
                 pass
 
