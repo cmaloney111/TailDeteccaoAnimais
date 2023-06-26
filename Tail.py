@@ -74,7 +74,7 @@ def main():
 
     col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
     with col3:
-        st.image(resize("Tail/Captura-de-Tela-2020-08-16-às-11.57.39.png", 300))
+        st.image(resize("TailImage/Captura-de-Tela-2020-08-16-às-11.57.39.png", 300))
         
     option = st.selectbox(
         'Você gostaria de detectar pássaros, gatos ou cachorros?',
