@@ -1,0 +1,17 @@
+import zipfile
+import os
+from random import sample
+
+#with zipfile.ZipFile(r'C:\Users\camer\OneDrive\Documents\Personal landing\Dogs\archive (7).zip', 'r') as myzip:
+#    myzip.extractall(r'C:\Users\camer\OneDrive\Documents\Personal landing\Dogs\Images')
+
+
+
+dirs = os.listdir(r'C:\Users\camer\OneDrive\Documents\Personal landing\Dogs\Images\images\Images')
+for dir in dirs:
+    files = os.listdir(os.path.join(r'C:\Users\camer\OneDrive\Documents\Personal landing\Dogs\Images\images\Images', dir))
+    try:
+        for file in sample(files,int(len(files)/1.8)):
+            os.remove(os.path.join(r'C:\Users\camer\OneDrive\Documents\Personal landing\Dogs\Images\images\Images', dir, file))
+    except FileNotFoundError:
+        pass
